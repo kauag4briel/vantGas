@@ -23,10 +23,10 @@ async function startServer() {
   app.get('/api/health', (_req, res) => {
     res.json({
       status: 'healthy',
-      service: 'Prefeitura Municipal de Cocalzinho de Goiás - Sistema de Gestão de Abastecimentos',
+      service: 'VantGas - Sistema de Gestão de Abastecimentos e Frotas',
       version: '1.0.0',
       timestamp: new Date().toISOString(),
-      municipio: 'Cocalzinho de Goiás - GO',
+      platform: 'VantGas Cloud',
       security: {
         rbac: 'enforced',
         audit: 'immutable-hash',
@@ -61,15 +61,15 @@ async function startServer() {
 
   // Global Error Handler
   app.use((err: Error & { status?: number }, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    console.error('[SIGA-Combustível Server Error]:', err);
+    console.error('[VantGas Server Error]:', err);
     res.status(err.status || 500).json({
       error: 'Erro Interno do Servidor',
-      message: err.message || 'Ocorreu uma falha no processamento da requisição governamental.',
+      message: err.message || 'Ocorreu uma falha no processamento da requisição.',
     });
   });
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[SIGA-Combustível] Servidor governamental ativo em http://0.0.0.0:${PORT}`);
+    console.log(`[VantGas] Servidor ativo em http://0.0.0.0:${PORT}`);
   });
 }
 
