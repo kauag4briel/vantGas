@@ -1,0 +1,6 @@
+{
+  "name": "VantGas - Gestão de Abastecimentos e Frotas",
+  "description": "Sistema VantGas para controle de frotas, gestão de combustíveis, postos credenciados e auditoria operacional.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
