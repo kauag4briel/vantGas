@@ -63,35 +63,35 @@ export const AuditoriaView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3.5 pb-8">
+    <div className="space-y-4 pb-10">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 bg-white p-3 sm:p-3.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
         <div>
-          <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-            <ScrollText className="w-4 h-4 text-[#0b3b60]" />
-            Trilha de Auditoria Forense Imutável (Append-Only)
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <ScrollText className="w-5 h-5 text-emerald-600" />
+            Trilha de Auditoria & Segurança
           </h2>
-          <p className="text-[11px] text-slate-500">
-            Registro cronológico indelével de todas as ações sensíveis, alterações, cancelamentos e exportações
+          <p className="text-xs text-slate-500 mt-0.5">
+            Registro cronológico indelével de todas as ações sensíveis, alterações e exportações
           </p>
         </div>
 
         <button
           onClick={() => exportarDadosCSV('auditoria')}
-          className="flex items-center gap-1 px-2.5 py-1.5 rounded-sm border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold cursor-pointer shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold cursor-pointer shadow-xs transition-colors shrink-0"
         >
-          <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-700" />
+          <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
           Exportar Logs (CSV)
         </button>
       </div>
 
       {/* Security Statement Banner */}
-      <div className="bg-[#062035] text-slate-200 p-3 rounded-sm border border-blue-900 flex items-start gap-2.5 text-xs">
-        <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-        <div className="space-y-0.5">
+      <div className="bg-slate-900 text-slate-200 p-4 rounded-xl border border-slate-800 flex items-start gap-3 text-xs shadow-xs">
+        <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+        <div className="space-y-1">
           <div className="font-bold text-white flex items-center gap-2 text-xs">
             Garantia de Não-Repúdio e Rastreabilidade Integral
-            <span className="bg-emerald-950 text-emerald-400 px-1.5 py-0.5 rounded-sm text-[9px] border border-emerald-800">
+            <span className="bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full text-[9px] font-bold border border-emerald-800">
               Imutável
             </span>
           </div>
@@ -103,15 +103,15 @@ export const AuditoriaView: React.FC = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-2 bg-white p-2.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row gap-2.5 bg-white p-3 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Buscar por usuário, recurso, justificativa ou ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-sm outline-none focus:bg-white focus:ring-1 focus:ring-blue-600"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -119,9 +119,9 @@ export const AuditoriaView: React.FC = () => {
             aria-label="Filtrar por ação de auditoria"
             value={acaoFilter}
             onChange={(e) => setAcaoFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Ações: Todas</option>
+            <option value="">Todas as Ações</option>
             <option value="INSERT">INSERT</option>
             <option value="UPDATE">UPDATE</option>
             <option value="CANCEL">CANCEL</option>
@@ -132,9 +132,9 @@ export const AuditoriaView: React.FC = () => {
             aria-label="Filtrar por recurso auditado"
             value={recursoFilter}
             onChange={(e) => setRecursoFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Recursos: Todos</option>
+            <option value="">Todos os Recursos</option>
             <option value="ABASTECIMENTO">ABASTECIMENTO</option>
             <option value="POSTO">POSTO</option>
             <option value="VEICULO">VEICULO</option>
@@ -146,10 +146,10 @@ export const AuditoriaView: React.FC = () => {
       </div>
 
       {/* Logs Table */}
-      <div className="bg-white rounded-sm border border-slate-300 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase font-semibold text-[10px]">
+            <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold text-[10px]">
               <tr>
                 <th className="py-3 px-3">Data e Hora</th>
                 <th className="py-3 px-3">Usuário / Perfil</th>

@@ -9,7 +9,6 @@ import {
 } from '../../utils/formatters';
 import {
   Search,
-  Filter,
   FileSpreadsheet,
   Plus,
   Eye,
@@ -17,9 +16,7 @@ import {
   Fuel,
   CheckCircle2,
   AlertTriangle,
-  FileText,
 } from 'lucide-react';
-import { Abastecimento } from '../../types';
 
 export const AbastecimentosView: React.FC = () => {
   const {
@@ -59,8 +56,8 @@ export const AbastecimentosView: React.FC = () => {
 
   const handleConfirmCancel = () => {
     if (!cancelingId) return;
-    if (!cancelJustificativa.trim() || cancelJustificativa.trim().length < 8) {
-      alert('A justificativa de cancelamento é obrigatória e deve ter pelo menos 8 caracteres para auditoria forense.');
+    if (!cancelJustificativa.trim() || cancelJustificativa.trim().length < 5) {
+      alert('Por favor, informe uma justificativa válida com pelo menos 5 caracteres.');
       return;
     }
 
@@ -71,105 +68,102 @@ export const AbastecimentosView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3.5 pb-8">
-      {/* Top summary header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 bg-white p-3 sm:p-3.5 rounded-sm border border-slate-300 shadow-xs">
+    <div className="space-y-4 pb-10">
+      {/* Top Header Card */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
         <div>
-          <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-            <Fuel className="w-4 h-4 text-[#0b3b60]" />
-            Registro Oficial de Abastecimentos Fiscais
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Fuel className="w-5 h-5 text-emerald-600" />
+            Histórico de Abastecimentos
           </h2>
-          <p className="text-[11px] text-slate-500">
-            Transações rastreáveis com autenticação, comprovante digital e integração com secretarias
+          <p className="text-xs text-slate-500 mt-0.5">
+            Visualize, filtre e gerencie todas as transações de combustível da frota
           </p>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => exportarDadosCSV('abastecimentos')}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-sm border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold cursor-pointer transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold cursor-pointer transition-colors"
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-700" />
-            Exportar CSV
+            <FileSpreadsheet className="w-3.5 h-3.5 text-slate-500" />
+            <span>Exportar CSV</span>
           </button>
           {currentUser.role !== 'AUDITOR' && (
             <button
               onClick={() => setIsNovoAbastecimentoModalOpen(true)}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-sm bg-[#0b3b60] hover:bg-[#082e4c] text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
             >
-              <Plus className="w-3.5 h-3.5 text-amber-300" />
-              Novo Abastecimento
+              <Plus className="w-3.5 h-3.5" />
+              <span>Novo Registro</span>
             </button>
           )}
         </div>
       </div>
 
       {/* Metrics Banner */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <div className="bg-white border border-slate-300 rounded-sm p-2.5 shadow-xs">
-          <div className="text-[10px] font-semibold text-slate-500 uppercase">Transações Listadas</div>
-          <div className="text-base sm:text-lg font-bold text-slate-900 mt-0.5">{displayList.length} abastecimentos</div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-xs">
+          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Total de Registros</div>
+          <div className="text-xl font-black text-slate-900 mt-1">{displayList.length} abastecimentos</div>
         </div>
-        <div className="bg-white border border-slate-300 rounded-sm p-2.5 shadow-xs">
-          <div className="text-[10px] font-semibold text-slate-500 uppercase">Volume Total Filtrado</div>
-          <div className="text-base sm:text-lg font-bold text-emerald-700 mt-0.5">{formatLiters(totalFiltradoLitros)}</div>
+        <div className="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-xs">
+          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Volume Total</div>
+          <div className="text-xl font-black text-blue-600 mt-1">{formatLiters(totalFiltradoLitros)}</div>
         </div>
-        <div className="bg-white border border-slate-300 rounded-sm p-2.5 shadow-xs">
-          <div className="text-[10px] font-semibold text-slate-500 uppercase">Valor Líquido Válido</div>
-          <div className="text-base sm:text-lg font-bold text-[#0b3b60] mt-0.5">{formatBRL(totalFiltradoValor)}</div>
+        <div className="bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-xs">
+          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Valor Líquido</div>
+          <div className="text-xl font-black text-emerald-600 mt-1">{formatBRL(totalFiltradoValor)}</div>
         </div>
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-2 bg-white p-2.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row gap-2.5 bg-white p-3 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input
             type="text"
-            placeholder="Buscar por placa, motorista, código de autenticação, posto, cupom..."
+            placeholder="Buscar por placa, modelo, motorista, código ou posto..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-sm outline-none focus:bg-white focus:ring-1 focus:ring-blue-600"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div className="flex items-center gap-2">
           <select
-            aria-label="Filtrar por status do abastecimento"
+            aria-label="Filtrar por status"
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full sm:w-auto bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="todos">Status: Todos</option>
-            <option value="confirmado">Somente Confirmados</option>
-            <option value="cancelado">Somente Cancelados</option>
+            <option value="todos">Todos os Status</option>
+            <option value="confirmado">Confirmados</option>
+            <option value="cancelado">Cancelados</option>
           </select>
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-sm border border-slate-300 shadow-xs overflow-hidden">
+      {/* Main Table */}
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase font-semibold text-[10px]">
+            <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold text-[10px]">
               <tr>
-                <th className="py-3 px-3">Autenticação / Data</th>
-                <th className="py-3 px-3">Veículo / Frota</th>
-                <th className="py-3 px-3">Secretaria</th>
-                <th className="py-3 px-3">Posto Credenciado</th>
-                <th className="py-3 px-2">Combustível</th>
-                <th className="py-3 px-2 text-right">Litros</th>
-                <th className="py-3 px-2 text-right">Preço/L</th>
+                <th className="py-3 px-4">Data / Código</th>
+                <th className="py-3 px-3">Veículo</th>
+                <th className="py-3 px-3">Posto</th>
+                <th className="py-3 px-3">Combustível</th>
+                <th className="py-3 px-3 text-right">Litros</th>
                 <th className="py-3 px-3 text-right">Valor Total</th>
-                <th className="py-3 px-2 text-center">Consumo (km/L)</th>
-                <th className="py-3 px-2">Status</th>
-                <th className="py-3 px-3 text-center">Ações</th>
+                <th className="py-3 px-3 text-center">Status</th>
+                <th className="py-3 px-4 text-right">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
               {displayList.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="py-8 text-center text-slate-400">
-                    Nenhum abastecimento localizado para os critérios aplicados.
+                  <td colSpan={8} className="py-12 text-center text-slate-400">
+                    Nenhum abastecimento encontrado para os filtros selecionados.
                   </td>
                 </tr>
               ) : (
@@ -178,93 +172,65 @@ export const AbastecimentosView: React.FC = () => {
                   return (
                     <tr
                       key={abs.id}
-                      className={`hover:bg-slate-50 transition-colors ${isCancelado ? 'bg-rose-50/40 text-slate-400' : ''}`}
+                      className={`hover:bg-slate-50/80 transition-colors ${isCancelado ? 'bg-rose-50/30 text-slate-400' : ''}`}
                     >
-                      <td className="py-3 px-3">
-                        <div className="font-mono text-[11px] font-bold text-slate-900">
-                          {abs.codigoAutenticacao}
-                        </div>
-                        <div className="text-[10px] text-slate-500">
-                          {formatDateTime(abs.dataHora)}
-                        </div>
+                      <td className="py-3 px-4">
+                        <div className="font-semibold text-slate-800">{formatDateTime(abs.dataHora)}</div>
+                        <div className="font-mono text-[10px] text-slate-400">{abs.codigoAutenticacao}</div>
                       </td>
 
                       <td className="py-3 px-3">
                         <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                          <span className="px-1.5 py-0.5 bg-slate-100 rounded-sm text-[10px] font-mono border border-slate-300">
+                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[10px] font-mono border border-slate-200">
                             {abs.veiculoPlaca}
                           </span>
                           <span className="truncate">{abs.veiculoModelo}</span>
                         </div>
                         <div className="text-[10px] text-slate-400">
-                          Odômetro: {formatKm(abs.odometroRegistrado)}
+                          {abs.motoristaNome ? `Mot: ${abs.motoristaNome}` : `KM: ${formatKm(abs.odometroRegistrado)}`}
                         </div>
                       </td>
 
                       <td className="py-3 px-3">
-                        <div className="text-slate-800 font-semibold truncate max-w-[130px]">
-                          {abs.secretariaNome}
-                        </div>
-                        <div className="text-[10px] text-slate-400 truncate">
-                          Mot: {abs.motoristaNome}
-                        </div>
+                        <div className="text-slate-800 font-semibold truncate max-w-[140px]">{abs.postoNome}</div>
+                        <div className="text-[10px] text-slate-400">{abs.secretariaNome}</div>
                       </td>
 
                       <td className="py-3 px-3">
-                        <div className="text-slate-900 font-semibold truncate max-w-[140px]">
-                          {abs.postoNome}
-                        </div>
-                        <div className="text-[10px] text-slate-400">
-                          Bomba {abs.numeroBomba || 1} • {abs.numeroCupomFiscal || 'Cupom N/D'}
-                        </div>
-                      </td>
-
-                      <td className="py-3 px-2">
-                        <span className="px-2 py-0.5 rounded-sm text-[10px] font-semibold bg-slate-100 text-slate-700">
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 text-slate-700">
                           {abs.combustivelNome}
                         </span>
+                        <div className="text-[10px] text-slate-400 mt-0.5">{formatBRL(abs.precoUnitarioLitro)}/L</div>
                       </td>
 
-                      <td className="py-3 px-2 text-right font-semibold text-slate-800">
+                      <td className="py-3 px-3 text-right font-semibold text-slate-800">
                         {formatLiters(abs.quantidadeLitros)}
                       </td>
 
-                      <td className="py-3 px-2 text-right text-slate-600">
-                        {formatBRL(abs.precoUnitarioLitro)}
-                      </td>
-
-                      <td className="py-3 px-3 text-right font-bold text-blue-700">
+                      <td className="py-3 px-3 text-right font-bold text-emerald-700">
                         {formatBRL(abs.valorTotal)}
                       </td>
 
-                      <td className="py-3 px-2 text-center font-mono text-slate-700">
-                        {abs.consumoKmLCalculado ? (
-                          <span className="text-emerald-700 font-bold">{formatKmL(abs.consumoKmLCalculado)}</span>
-                        ) : (
-                          <span className="text-slate-400">-</span>
-                        )}
-                      </td>
-
-                      <td className="py-3 px-2">
+                      <td className="py-3 px-3 text-center">
                         {isCancelado ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                             <XCircle className="w-3 h-3" />
                             Cancelado
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                             <CheckCircle2 className="w-3 h-3" />
                             Confirmado
                           </span>
                         )}
                       </td>
 
-                      <td className="py-3 px-3 text-center">
-                        <div className="flex items-center justify-center gap-1.5">
+                      <td className="py-3 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => setSelectedAbastecimento(abs)}
-                            className="p-1 rounded-sm text-slate-600 hover:bg-slate-200 hover:text-slate-900 transition-colors cursor-pointer"
-                            title="Ver ficha fiscal detalhada"
+                            className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+                            title="Ver detalhes do abastecimento"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -274,8 +240,8 @@ export const AbastecimentosView: React.FC = () => {
                                 setCancelingId(abs.id);
                                 setCancelJustificativa('');
                               }}
-                              className="p-1 rounded-sm text-rose-500 hover:bg-rose-100 transition-colors cursor-pointer"
-                              title="Cancelar este abastecimento (Requer justificativa)"
+                              className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                              title="Cancelar abastecimento"
                             >
                               <XCircle className="w-4 h-4" />
                             </button>
@@ -291,43 +257,41 @@ export const AbastecimentosView: React.FC = () => {
         </div>
       </div>
 
-      {/* Cancelation confirmation prompt modal */}
+      {/* Cancelation confirmation modal */}
       {cancelingId && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-sm max-w-md w-full p-5 shadow-2xl border border-rose-200">
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-5 shadow-2xl border border-slate-200">
             <div className="flex items-center gap-2 text-rose-700 font-bold text-sm mb-2">
               <AlertTriangle className="w-5 h-5 text-rose-600" />
-              Auditoria: Cancelamento de Abastecimento
+              Cancelar Abastecimento
             </div>
             <p className="text-xs text-slate-600 mb-3">
-              Por determinação dos Tribunais de Contas e normas de conformidade municipal, o cancelamento de um
-              abastecimento confirmado requer <strong>justificativa fundamentada obrigatória</strong>, a qual será
-              registrada de forma indelével na trilha de auditoria forense do sistema.
+              Informe o motivo do cancelamento deste registro. A operação ficará registrada no histórico.
             </p>
 
             <label className="block text-xs font-semibold text-slate-700 mb-1">
-              Justificativa Técnica de Cancelamento (Mínimo 8 caracteres):
+              Motivo do Cancelamento:
             </label>
             <textarea
               rows={3}
               value={cancelJustificativa}
               onChange={(e) => setCancelJustificativa(e.target.value)}
-              placeholder="Ex: Erro material no lançamento de litros ou cupom estornado na bomba pelo fiscal..."
-              className="w-full text-xs p-2.5 border border-slate-300 rounded-sm outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="Ex: Erro no lançamento de litros ou cupom estornado..."
+              className="w-full text-xs p-2.5 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-rose-500"
             ></textarea>
 
             <div className="flex items-center justify-end gap-2 mt-4">
               <button
                 onClick={() => setCancelingId(null)}
-                className="px-3 py-1.5 rounded-sm border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
               >
                 Voltar
               </button>
               <button
                 onClick={handleConfirmCancel}
-                className="px-4 py-1.5 rounded-sm bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold cursor-pointer"
+                className="px-4 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold cursor-pointer"
               >
-                Efetivar Cancelamento e Registrar Auditoria
+                Confirmar Cancelamento
               </button>
             </div>
           </div>

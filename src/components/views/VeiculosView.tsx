@@ -88,40 +88,40 @@ export const VeiculosView: React.FC = () => {
     : [];
 
   return (
-    <div className="space-y-3.5 pb-8">
+    <div className="space-y-4 pb-10">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 bg-white p-3 sm:p-3.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
         <div>
-          <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-            <Truck className="w-4 h-4 text-[#0b3b60]" />
-            Gestão da Frota Municipal
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Truck className="w-5 h-5 text-emerald-600" />
+            Frota Municipal de Veículos
           </h2>
-          <p className="text-[11px] text-slate-500">
-            Acompanhamento individual de consumo, odômetro, custo por km rodado e secretarias vinculadas
+          <p className="text-xs text-slate-500 mt-0.5">
+            Acompanhamento individual de consumo médio, odômetro e histórico de despesas
           </p>
         </div>
 
         {currentUser.role !== 'AUDITOR' && currentUser.role !== 'POSTO' && (
           <button
             onClick={() => setIsNovoVeiculoModalOpen(true)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-sm bg-[#0b3b60] hover:bg-[#082e4c] text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0"
           >
-            <Plus className="w-3.5 h-3.5 text-amber-300" />
-            Cadastrar Novo Veículo
+            <Plus className="w-3.5 h-3.5" />
+            Cadastrar Veículo
           </button>
         )}
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-2 bg-white p-2.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row gap-2.5 bg-white p-3 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input
             type="text"
-            placeholder="Buscar por placa, modelo, marca, RENAVAM ou secretaria..."
+            placeholder="Buscar por placa, modelo, marca ou secretaria..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-sm outline-none focus:bg-white focus:ring-1 focus:ring-blue-600"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -129,9 +129,9 @@ export const VeiculosView: React.FC = () => {
             aria-label="Filtrar por tipo de veículo"
             value={tipoFilter}
             onChange={(e) => setTipoFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Tipos: Todos</option>
+            <option value="">Todos os Tipos</option>
             <option value="carro">Carro</option>
             <option value="moto">Moto</option>
             <option value="caminhao">Caminhão</option>
@@ -147,9 +147,9 @@ export const VeiculosView: React.FC = () => {
             aria-label="Filtrar por secretaria vinculada"
             value={secretariaFilter}
             onChange={(e) => setSecretariaFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Secretarias: Todas</option>
+            <option value="">Todas as Secretarias</option>
             {secretarias.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.sigla}
@@ -161,9 +161,9 @@ export const VeiculosView: React.FC = () => {
             aria-label="Filtrar por situação do veículo"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Status: Todos</option>
+            <option value="">Todos os Status</option>
             <option value="ativo">Operacional</option>
             <option value="manutencao">Em Manutenção</option>
             <option value="baixado">Baixado</option>
@@ -172,17 +172,17 @@ export const VeiculosView: React.FC = () => {
       </div>
 
       {/* Vehicle Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredVeiculos.map((veiculo) => (
           <div
             key={veiculo.id}
-            className="bg-white rounded-sm border border-slate-200 p-4 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+            className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-xs hover:shadow-sm transition-all flex flex-col justify-between"
           >
             <div>
               {/* Header */}
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div>
-                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-sm bg-slate-900 text-white tracking-wider">
+                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-900 text-white tracking-wider">
                     {veiculo.placa}
                   </span>
                   <h3 className="font-bold text-slate-900 text-sm mt-1.5">
@@ -196,7 +196,7 @@ export const VeiculosView: React.FC = () => {
               </div>
 
               {/* Department & Fuel Badge */}
-              <div className="space-y-1.5 my-3 text-xs bg-slate-50 p-2.5 rounded-sm border border-slate-200">
+              <div className="space-y-1.5 my-3 text-xs bg-slate-50 p-2.5 rounded-lg border border-slate-100">
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="text-slate-500">Secretaria:</span>
                   <span className="font-semibold text-slate-800 truncate max-w-[170px]">
@@ -205,34 +205,34 @@ export const VeiculosView: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="text-slate-500">Combustível:</span>
-                  <span className="font-semibold text-blue-700">{veiculo.combustivelPadraoNome}</span>
+                  <span className="font-semibold text-emerald-700">{veiculo.combustivelPadraoNome}</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500">Capacidade Tanque:</span>
+                  <span className="text-slate-500">Capacidade:</span>
                   <span className="font-semibold text-slate-800">{veiculo.capacidadeTanqueLitros} L</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500">Odômetro Atual:</span>
+                  <span className="text-slate-500">Odômetro:</span>
                   <span className="font-bold font-mono text-slate-900">{formatKm(veiculo.odometroAtual)}</span>
                 </div>
               </div>
 
               {/* Efficiency metrics */}
               <div className="grid grid-cols-2 gap-2 text-center py-1">
-                <div className="bg-emerald-50/60 rounded-sm p-2 border border-emerald-100">
-                  <div className="text-[10px] text-emerald-800 font-semibold">Consumo Real Aferido</div>
+                <div className="bg-emerald-50/70 rounded-lg p-2 border border-emerald-100">
+                  <div className="text-[10px] text-emerald-800 font-semibold">Consumo Real</div>
                   <div className="text-sm font-bold text-emerald-700 mt-0.5">
                     {formatKmL(veiculo.consumoRealKmL)}
                   </div>
                   <div className="text-[9px] text-slate-400">Meta: {veiculo.consumoMedioEstimadoKmL} km/L</div>
                 </div>
 
-                <div className="bg-blue-50/60 rounded-sm p-2 border border-blue-100">
+                <div className="bg-blue-50/70 rounded-lg p-2 border border-blue-100">
                   <div className="text-[10px] text-blue-800 font-semibold">Custo Médio / km</div>
                   <div className="text-sm font-bold text-blue-700 mt-0.5">
                     {formatCustoPorKm(veiculo.custoPorKm)}
                   </div>
-                  <div className="text-[9px] text-slate-400">Gasto total: {formatBRL(veiculo.totalGasto)}</div>
+                  <div className="text-[9px] text-slate-400">Gasto: {formatBRL(veiculo.totalGasto)}</div>
                 </div>
               </div>
             </div>
@@ -240,13 +240,13 @@ export const VeiculosView: React.FC = () => {
             {/* Actions */}
             <div className="pt-3 border-t border-slate-100 mt-3 flex items-center justify-between">
               <span className="text-[10px] text-slate-400">
-                Últ. abast: {veiculo.ultimoAbastecimentoData || 'N/D'}
+                Últ. abast: {veiculo.ultimoAbastecimentoData || 'Nenhum'}
               </span>
               <button
                 onClick={() => setSelectedVehicleDetails(veiculo)}
-                className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
+                className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer"
               >
-                Ficha e Histórico
+                <span>Ficha & Histórico</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>

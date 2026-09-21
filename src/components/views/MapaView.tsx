@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { formatBRL, formatLiters } from '../../utils/formatters';
+import { formatBRL } from '../../utils/formatters';
 import {
   MapPin,
   Fuel,
-  Navigation,
-  CheckCircle2,
   Clock,
   Phone,
-  Building,
   ChevronRight,
   Compass,
 } from 'lucide-react';
@@ -19,7 +16,6 @@ export const MapaView: React.FC = () => {
   const [selectedPinPosto, setSelectedPinPosto] = useState<Posto | null>(postos[0] || null);
 
   // Approximate center of Cocalzinho de Goiás - GO
-  // Coordinates around -15.7938, -48.7770 (BR-070, Corumbá e Serra dos Pireneus)
   const minLat = -15.850;
   const maxLat = -15.720;
   const minLng = -48.850;
@@ -35,27 +31,27 @@ export const MapaView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 pb-10">
       {/* Header */}
-      <div className="bg-white p-4 rounded-sm border border-slate-200 shadow-2xs">
-        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-blue-600" />
-          Mapa Georreferenciado da Rede de Abastecimento
+      <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <MapPin className="w-5 h-5 text-emerald-600" />
+          Mapa da Rede Credenciada
         </h2>
-        <p className="text-xs text-slate-500">
-          Distribuição espacial da rede de postos credenciados VantGas
+        <p className="text-xs text-slate-500 mt-0.5">
+          Distribuição geográfica e localização dos postos credenciados no município
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Interactive Map Canvas */}
-        <div className="lg:col-span-2 bg-slate-950 rounded-sm border border-slate-800 p-4 shadow-xl relative min-h-[480px] flex flex-col justify-between overflow-hidden">
+        <div className="lg:col-span-2 bg-slate-950 rounded-xl border border-slate-800 p-4 shadow-sm relative min-h-[460px] flex flex-col justify-between overflow-hidden">
           {/* Municipal Grid Overlay */}
           <div
             className="absolute inset-0 opacity-15 pointer-events-none"
             style={{
               backgroundImage:
-                'radial-gradient(#3b82f6 1px, transparent 1px), radial-gradient(#3b82f6 1px, #020617 1px)',
+                'radial-gradient(#10b981 1px, transparent 1px), radial-gradient(#10b981 1px, #020617 1px)',
               backgroundSize: '30px 30px',
               backgroundPosition: '0 0, 15px 15px',
             }}
@@ -66,14 +62,14 @@ export const MapaView: React.FC = () => {
             <path
               d="M 50 100 Q 200 250 500 280 T 800 350"
               fill="none"
-              stroke="#60a5fa"
+              stroke="#34d399"
               strokeWidth="4"
               strokeDasharray="6 4"
             />
             <path
               d="M 250 50 Q 300 200 450 400"
               fill="none"
-              stroke="#93c5fd"
+              stroke="#6ee7b7"
               strokeWidth="3"
             />
             <path
@@ -85,19 +81,19 @@ export const MapaView: React.FC = () => {
           </svg>
 
           {/* Map Top Bar Controls */}
-          <div className="relative z-10 flex items-center justify-between text-xs text-slate-300 bg-slate-900 px-3 py-2 rounded-sm border border-slate-800">
+          <div className="relative z-10 flex items-center justify-between text-xs text-slate-300 bg-slate-900/90 backdrop-blur-xs px-3.5 py-2.5 rounded-lg border border-slate-800">
             <div className="flex items-center gap-2">
-              <Compass className="w-4 h-4 text-blue-400 animate-spin-slow" />
+              <Compass className="w-4 h-4 text-emerald-400" />
               <span className="font-semibold text-white">Rede Credenciada VantGas</span>
-              <span className="text-[10px] text-slate-400">• Cobertura Regional & Rodovias</span>
+              <span className="text-[11px] text-slate-400 hidden sm:inline">• Cobertura Regional</span>
             </div>
-            <span className="text-[11px] bg-blue-950 text-blue-300 px-2 py-0.5 rounded-sm border border-blue-800">
+            <span className="text-[11px] bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-800 font-medium">
               {postos.length} postos mapeados
             </span>
           </div>
 
           {/* Station Pins */}
-          <div className="relative z-10 w-full h-80 my-auto">
+          <div className="relative z-10 w-full h-72 sm:h-80 my-auto">
             {postos.map((posto) => {
               const pos = getPositionPercent(posto.latitude, posto.longitude);
               const isSelected = selectedPinPosto?.id === posto.id;
@@ -112,17 +108,17 @@ export const MapaView: React.FC = () => {
                   }`}
                 >
                   <div
-                    className={`w-9 h-9 rounded-sm flex items-center justify-center shadow-lg border-2 ${
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-lg border-2 ${
                       isSelected
-                        ? 'bg-blue-600 border-white text-white ring-4 ring-blue-500/40'
-                        : 'bg-slate-900 border-blue-400 text-blue-300'
+                        ? 'bg-emerald-600 border-white text-white ring-4 ring-emerald-500/40'
+                        : 'bg-slate-900 border-emerald-400 text-emerald-300'
                     }`}
                   >
                     <Fuel className="w-4 h-4" />
                   </div>
 
                   {/* Tooltip on pin */}
-                  <div className="absolute top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[10px] px-2 py-1 rounded-sm shadow-md border border-slate-700 pointer-events-none opacity-90">
+                  <div className="absolute top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 text-white text-[10px] px-2.5 py-1 rounded-md shadow-md border border-slate-700 pointer-events-none opacity-90">
                     <span className="font-bold">{posto.nomeFantasia}</span>
                   </div>
                 </div>
@@ -132,21 +128,21 @@ export const MapaView: React.FC = () => {
 
           {/* Map Footer status */}
           <div className="relative z-10 text-[11px] text-slate-400 flex items-center justify-between pt-2 border-t border-slate-800">
-            <span>Datum: SIRGAS 2000 • Georreferenciamento Municipal</span>
-            <span>Clique em um pino para inspecionar</span>
+            <span>Datum: SIRGAS 2000 • Georreferenciamento</span>
+            <span>Clique no posto para detalhes</span>
           </div>
         </div>
 
         {/* Lateral Info Panel */}
         <div className="space-y-4">
           {selectedPinPosto ? (
-            <div className="bg-white rounded-sm border border-slate-200 p-5 shadow-2xs space-y-4">
+            <div className="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs space-y-4">
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-mono font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-sm border border-blue-200">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200">
                     {selectedPinPosto.codigoInterno}
                   </span>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm-full border border-emerald-200">
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     Credenciado
                   </span>
                 </div>
@@ -154,9 +150,9 @@ export const MapaView: React.FC = () => {
                 <p className="text-xs text-slate-500">{selectedPinPosto.razaoSocial}</p>
               </div>
 
-              <div className="space-y-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-sm border border-slate-200">
+              <div className="space-y-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
                 <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span>
                     {selectedPinPosto.logradouro}, {selectedPinPosto.numero} - {selectedPinPosto.bairro},{' '}
                     {selectedPinPosto.municipio}/{selectedPinPosto.uf}
@@ -170,11 +166,6 @@ export const MapaView: React.FC = () => {
                   <Phone className="w-4 h-4 text-slate-400 shrink-0" />
                   <span>{selectedPinPosto.telefone}</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
-                  <span>
-                    Coord: {selectedPinPosto.latitude.toFixed(4)}, {selectedPinPosto.longitude.toFixed(4)}
-                  </span>
-                </div>
               </div>
 
               {/* Preços Praticados */}
@@ -186,10 +177,10 @@ export const MapaView: React.FC = () => {
                   {selectedPinPosto.combustiveis.map((c) => (
                     <div
                       key={c.combustivelId}
-                      className="flex items-center justify-between text-xs py-1 px-2 rounded-sm bg-slate-50 border border-slate-100"
+                      className="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg bg-slate-50 border border-slate-100"
                     >
-                      <span className="text-slate-700">{c.combustivelNome}</span>
-                      <span className="font-bold text-blue-700">{formatBRL(c.precoAtual)}/L</span>
+                      <span className="text-slate-700 font-medium">{c.combustivelNome}</span>
+                      <span className="font-bold text-emerald-700">{formatBRL(c.precoAtual)}/L</span>
                     </div>
                   ))}
                 </div>
@@ -200,30 +191,30 @@ export const MapaView: React.FC = () => {
                   setSelectedPostoId(selectedPinPosto.id);
                   setActiveView('postos');
                 }}
-                className="w-full flex items-center justify-center gap-1.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-sm text-xs font-bold shadow-2xs cursor-pointer transition-colors"
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs cursor-pointer transition-colors"
               >
                 <span>Acessar Ficha Completa</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <div className="bg-white rounded-sm border border-slate-200 p-8 text-center text-xs text-slate-400">
+            <div className="bg-white rounded-xl border border-slate-200/80 p-8 text-center text-xs text-slate-400">
               Selecione um posto no mapa ao lado para consultar a ficha geográfica.
             </div>
           )}
 
           {/* Quick List */}
-          <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-2xs">
+          <div className="bg-white rounded-xl border border-slate-200/80 p-4 shadow-xs">
             <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">
-              Estabelecimentos no Município
+              Postos no Município
             </h4>
             <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
               {postos.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => setSelectedPinPosto(p)}
-                  className={`w-full text-left p-2 rounded-sm text-xs flex items-center justify-between transition-colors cursor-pointer ${
-                    selectedPinPosto?.id === p.id ? 'bg-blue-50 text-blue-900 font-bold' : 'hover:bg-slate-50'
+                  className={`w-full text-left p-2.5 rounded-lg text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                    selectedPinPosto?.id === p.id ? 'bg-emerald-50 text-emerald-900 font-bold border border-emerald-200/60' : 'hover:bg-slate-50 text-slate-700'
                   }`}
                 >
                   <span className="truncate">{p.nomeFantasia}</span>

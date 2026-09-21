@@ -147,40 +147,40 @@ export const UsuariosView: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 pb-10">
       {/* Header */}
-      <div className="bg-white p-4 rounded-sm border border-slate-200 shadow-2xs">
-        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-          <Users className="w-5 h-5 text-blue-600" />
-          Usuários e Matriz de Controle de Acesso (RBAC)
+      <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <Users className="w-5 h-5 text-emerald-600" />
+          Usuários & Controle de Acesso (RBAC)
         </h2>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-500 mt-0.5">
           Governança institucional, segregação de funções e perfis de segurança aplicados
         </p>
       </div>
 
       {/* Lista de Usuários Cadastrados */}
-      <div className="bg-white rounded-sm border border-slate-200 shadow-2xs p-5">
-        <h3 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
-          <UserCheck className="w-4 h-4 text-blue-600" />
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs p-5">
+        <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+          <UserCheck className="w-4 h-4 text-emerald-600" />
           Contas de Usuários Ativos no Sistema
         </h3>
         <p className="text-xs text-slate-500 mb-4">
-          Você pode alternar o perfil logado no topo da tela para testar a aplicação de cada nível de acesso
+          Você pode alternar o operador ativo para testar a aplicação dos níveis de permissão
         </p>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-slate-200/80 rounded-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-y border-slate-200 text-slate-600 uppercase font-semibold text-[10px]">
+            <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold text-[10px]">
               <tr>
-                <th className="py-2.5 px-3">Servidor / E-mail</th>
+                <th className="py-2.5 px-4">Servidor / E-mail</th>
                 <th className="py-2.5 px-3">Matrícula</th>
                 <th className="py-2.5 px-3">Cargo / Função</th>
                 <th className="py-2.5 px-3">Perfil RBAC</th>
                 <th className="py-2.5 px-3">Lotação / Secretaria</th>
                 <th className="py-2.5 px-2">Situação</th>
                 <th className="py-2.5 px-3">Último Acesso</th>
-                <th className="py-2.5 px-3 text-right">Simular Acesso</th>
+                <th className="py-2.5 px-4 text-right">Alternar Sessão</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
@@ -189,8 +189,8 @@ export const UsuariosView: React.FC = () => {
                 const isSelected = currentUser.id === user.id;
 
                 return (
-                  <tr key={user.id} className={`hover:bg-slate-50 ${isSelected ? 'bg-blue-50/40' : ''}`}>
-                    <td className="py-2.5 px-3">
+                  <tr key={user.id} className={`hover:bg-slate-50/80 transition-colors ${isSelected ? 'bg-emerald-50/40' : ''}`}>
+                    <td className="py-2.5 px-4">
                       <div className="font-bold text-slate-900">{user.nome}</div>
                       <div className="text-[11px] text-slate-400">{user.email}</div>
                     </td>
@@ -201,7 +201,7 @@ export const UsuariosView: React.FC = () => {
                       {user.cargo || user.roleDescricao}
                     </td>
                     <td className="py-2.5 px-3">
-                      <span className={`px-2 py-0.5 rounded-sm text-[10px] font-bold border ${badge.className}`}>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${badge.className}`}>
                         {badge.label}
                       </span>
                     </td>
@@ -209,24 +209,24 @@ export const UsuariosView: React.FC = () => {
                       {user.departamento || user.secretariaNome || (user.postoId ? 'Posto Credenciado' : 'Gabinete Municipal')}
                     </td>
                     <td className="py-2.5 px-2">
-                      <span className="px-2 py-0.5 rounded-sm-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                         Ativo
                       </span>
                     </td>
                     <td className="py-2.5 px-3 font-mono text-slate-500 text-[11px]">
                       {user.ultimoAcesso ? formatDateOnly(user.ultimoAcesso) : '-'}
                     </td>
-                    <td className="py-2.5 px-3 text-right">
+                    <td className="py-2.5 px-4 text-right">
                       {isSelected ? (
-                        <span className="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-sm">
+                        <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg">
                           Ativo Agora
                         </span>
                       ) : (
                         <button
                           onClick={() => setCurrentUser(user)}
-                          className="text-xs font-semibold text-blue-600 hover:text-blue-800 border border-blue-200 hover:bg-blue-50 px-2.5 py-1 rounded-sm cursor-pointer transition-colors"
+                          className="text-xs font-semibold text-emerald-700 hover:text-emerald-900 border border-emerald-200 hover:bg-emerald-50 px-2.5 py-1 rounded-lg cursor-pointer transition-colors"
                         >
-                          Alternar Sessão
+                          Simular
                         </button>
                       )}
                     </td>
@@ -239,20 +239,20 @@ export const UsuariosView: React.FC = () => {
       </div>
 
       {/* Matriz RBAC Formal */}
-      <div className="bg-white rounded-sm border border-slate-200 shadow-2xs p-5">
-        <h3 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
-          <Lock className="w-4 h-4 text-blue-600" />
-          Matriz de Permissões Institucionais (Role-Based Access Control)
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs p-5">
+        <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+          <Lock className="w-4 h-4 text-emerald-600" />
+          Matriz de Permissões Institucionais (RBAC)
         </h3>
         <p className="text-xs text-slate-500 mb-4">
           Diretrizes aplicadas em nível de backend para validação das requisições e isolamento de escopo
         </p>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-slate-200/80 rounded-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-y border-slate-200 text-slate-600 uppercase font-semibold text-[10px]">
+            <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold text-[10px]">
               <tr>
-                <th className="py-2.5 px-3">Papel / Perfil</th>
+                <th className="py-2.5 px-4">Papel / Perfil</th>
                 <th className="py-2.5 px-2 text-center">Registrar Abast.</th>
                 <th className="py-2.5 px-2 text-center">Cancelar Abast.</th>
                 <th className="py-2.5 px-2 text-center">Postos</th>
@@ -260,7 +260,7 @@ export const UsuariosView: React.FC = () => {
                 <th className="py-2.5 px-2 text-center">Preços</th>
                 <th className="py-2.5 px-2 text-center">Alertas</th>
                 <th className="py-2.5 px-2 text-center">Relatórios</th>
-                <th className="py-2.5 px-3">Escopo de Visibilidade</th>
+                <th className="py-2.5 px-4">Escopo de Visibilidade</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">

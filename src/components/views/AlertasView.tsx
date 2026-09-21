@@ -90,28 +90,28 @@ export const AlertasView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3.5 pb-8">
+    <div className="space-y-4 pb-10">
       {/* Header */}
-      <div className="bg-white p-3 sm:p-3.5 rounded-sm border border-slate-300 shadow-xs">
-        <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-          <ShieldAlert className="w-4 h-4 text-amber-600" />
-          Central de Alertas & Detecção de Inconsistências
+      <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-xs">
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+          <ShieldAlert className="w-5 h-5 text-amber-600" />
+          Central de Alertas & Auditoria
         </h2>
-        <p className="text-[11px] text-slate-500">
-          Fiscalização eletrônica contínua e regras automáticas de cruzamento para prevenção de inconformidades e desvios
+        <p className="text-xs text-slate-500 mt-0.5">
+          Identificação automática de inconsistências, desvios de consumo e inconformidades de abastecimento
         </p>
       </div>
 
       {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row gap-2 bg-white p-2.5 rounded-sm border border-slate-300 shadow-xs">
+      <div className="flex flex-col sm:flex-row gap-2.5 bg-white p-3 rounded-xl border border-slate-200/80 shadow-xs">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input
             type="text"
-            placeholder="Buscar alerta por título, placa, descrição, posto ou secretaria..."
+            placeholder="Buscar alerta por placa, título, posto ou descrição..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-8 pr-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-sm outline-none focus:bg-white focus:ring-1 focus:ring-blue-600"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -119,9 +119,9 @@ export const AlertasView: React.FC = () => {
             aria-label="Filtrar alertas por gravidade"
             value={gravidadeFilter}
             onChange={(e) => setGravidadeFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="">Gravidades: Todas</option>
+            <option value="">Todas as Gravidades</option>
             <option value="critica">Crítica</option>
             <option value="alta">Alta</option>
             <option value="media">Média</option>
@@ -132,21 +132,21 @@ export const AlertasView: React.FC = () => {
             aria-label="Filtrar alertas por status de fiscalização"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-300 rounded-sm px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:ring-1 focus:ring-blue-600"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500"
           >
-            <option value="todos">Status: Todos</option>
-            <option value="pendente">Somente Pendentes</option>
-            <option value="justificado">Justificados / Homologados</option>
-            <option value="confirmado_irregularidade">Irregularidades Confirmadas</option>
+            <option value="todos">Todos os Status</option>
+            <option value="pendente">Pendentes</option>
+            <option value="justificado">Justificados</option>
+            <option value="confirmado_irregularidade">Irregularidades</option>
           </select>
         </div>
       </div>
 
       {/* Alertas Cards List */}
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {filteredAlertas.length === 0 ? (
-          <div className="bg-white p-8 rounded-sm border border-slate-200 text-center text-slate-400 text-xs">
-            Nenhum alerta ou anomalia localizada para os filtros especificados.
+          <div className="bg-white p-12 rounded-xl border border-slate-200 text-center text-slate-400 text-xs">
+            Nenhum alerta localizado para os filtros selecionados.
           </div>
         ) : (
           filteredAlertas.map((alerta) => {
@@ -155,12 +155,12 @@ export const AlertasView: React.FC = () => {
             return (
               <div
                 key={alerta.id}
-                className={`bg-white rounded-sm border p-4 shadow-2xs transition-all ${
-                  isPendente ? 'border-amber-300 ring-1 ring-amber-100' : 'border-slate-200'
+                className={`bg-white rounded-xl border p-4 sm:p-5 shadow-xs transition-all ${
+                  isPendente ? 'border-amber-300 ring-1 ring-amber-100' : 'border-slate-200/80'
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       {getGravidadeBadge(alerta.gravidade)}
                       {getStatusBadge(alerta.status)}
@@ -178,24 +178,24 @@ export const AlertasView: React.FC = () => {
                     </p>
 
                     {/* Metadata chips */}
-                    <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-slate-500">
+                    <div className="flex flex-wrap items-center gap-2 pt-2">
                       {alerta.veiculoPlaca && (
-                        <span className="px-2 py-0.5 rounded-sm bg-slate-100 font-mono font-bold text-slate-700 border border-slate-200">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">
                           Placa: {alerta.veiculoPlaca}
                         </span>
                       )}
                       {alerta.postoNome && (
-                        <span className="px-2 py-0.5 rounded-sm bg-slate-100 font-medium text-slate-700 border border-slate-200">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] border border-slate-200">
                           Posto: {alerta.postoNome}
                         </span>
                       )}
                       {alerta.secretariaNome && (
-                        <span className="px-2 py-0.5 rounded-sm bg-slate-100 font-medium text-slate-700 border border-slate-200">
-                          Secretaria: {alerta.secretariaNome}
+                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] border border-slate-200">
+                          Setor: {alerta.secretariaNome}
                         </span>
                       )}
                       {alerta.analisadoPor && (
-                        <span className="px-2 py-0.5 rounded-sm bg-blue-50 font-medium text-blue-700 border border-blue-200">
+                        <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] border border-emerald-200">
                           Fiscal: {alerta.analisadoPor}
                         </span>
                       )}
@@ -203,27 +203,25 @@ export const AlertasView: React.FC = () => {
 
                     {/* Justificativa ou parecer se já analisado */}
                     {alerta.justificativa && (
-                      <div className="mt-2 text-xs bg-slate-50 border-l-2 border-blue-600 p-2 text-slate-700">
-                        <span className="font-semibold text-slate-900 block text-[11px]">Parecer Técnico:</span>
+                      <div className="mt-2 text-xs bg-slate-50 border-l-2 border-emerald-500 p-2.5 rounded-r-lg text-slate-700">
+                        <span className="font-semibold text-slate-900 block text-[11px]">Parecer Registrado:</span>
                         {alerta.justificativa}
                       </div>
                     )}
                   </div>
 
                   {/* Actions */}
-                  <div className="shrink-0 flex items-center gap-2">
-                    {isPendente && currentUser.role !== 'AUDITOR' && (
-                      <button
-                        onClick={() => {
-                          setSelectedAlertaParaAnalise(alerta);
-                          setIsAnalisarAlertaModalOpen(true);
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-2xs cursor-pointer transition-colors"
-                      >
-                        <FileCheck className="w-3.5 h-3.5" />
-                        Analisar & Julgar
-                      </button>
-                    )}
+                  <div className="shrink-0 flex items-center gap-2 pt-2 sm:pt-0">
+                    <button
+                      onClick={() => {
+                        setSelectedAlertaParaAnalise(alerta);
+                        setIsAnalisarAlertaModalOpen(true);
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
+                    >
+                      <FileCheck className="w-3.5 h-3.5" />
+                      <span>{isPendente ? 'Analisar' : 'Ver Parecer'}</span>
+                    </button>
                   </div>
                 </div>
               </div>
